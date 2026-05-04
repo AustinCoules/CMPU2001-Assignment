@@ -214,21 +214,58 @@ class Graph {
         int[]  dist, parent, hPos;
         Node t;
 
-        //code here
-        
-        //dist[s] = 0;
-        
-        //Heap h =  new Heap(V, dist, hPos);
-        //h.insert(s);
-        
-        //while ( ...)  
-        //{
-            // most of alg here
-            
-       // }
+        System.out.println("Prim's MST starting from vertex " + toChar(s));
+
+        // initialise arrays
+        dist = new int[V + 1];
+        parent = new int[V + 1];
+        hPos = new int[V + 1];
+
+        // assigning default values to arrays
+        for(v = 1; v <= V; v++) {
+            dist[v] = Integer.MAX_VALUE; // ensures no vertex is less than the initial value
+            parent[v] = 0;
+            hPos[v] = 0;
+        }
+
+        dist[s] = 0; // first vertext has best priority
+
+        Heap h = new Heap(V, dist, hPos);
+        h.insert(s);
+
+        while (!h.isEmpty()) {
+            v = h.remove();
+            dist[v] = -dist[v]; // negative indicates vertex is in MST
+
+            // traverses through adjacency list
+            for (t = adj[v]; t != z; t = t.next) {
+                u = t.vert; // place next vertex in u
+                wgt = t.wgt; // place next weight in wgt
+
+                // if weight of edge (v, u) is less than current weight
+                if (wgt < dist[u]) {
+                    dist[u] = wgt; // assign new best weight to dist[u]
+                    parent[u] = v; // assign new parent to parent[u]
+
+                    // if u is not in heap add it
+                    if (hPos[u] == 0) {
+                        System.out.println("Adding vertex " + toChar(u) + " to the heap");
+                        h.insert(u);
+                    }
+                    else { // otherwise sift it up
+                        System.out.println("Updating vertex " + toChar(u) + " in the heap");
+                        h.siftUp(hPos[u]);
+                    }
+                }
+            }
+        }
+
+        // finding total weight of MST
+        for(v = 1; v <= V; v++) {
+            wgt_sum += -dist[v]; // undoing the negative from earlier assignment
+        }
+
         System.out.print("\n\nWeight of MST = " + wgt_sum + "\n");
-        
-                  		
 	}
     
     public void showMST()

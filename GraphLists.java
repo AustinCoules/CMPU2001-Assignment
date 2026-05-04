@@ -168,13 +168,22 @@ class Graph {
             v = Integer.parseInt(parts[1]); 
             wgt = Integer.parseInt(parts[2]);
             
-            System.out.println("Edge " + toChar(u) + "--(" + wgt + ")--" + toChar(v));   
+            System.out.println("Edge " + toChar(u) + "--(" + wgt + ")--" + toChar(v));
+            
+            // create new node (u -> v) and assign its values
+            t = new Node();
+            t.vert = v;
+            t.wgt = wgt;
+            t.next = adj[u]; // point new node to first node in list
+            adj[u] = t; // point array to new node
 
-           
-            
-            // write code to put edge into adjacency matrix     
-            
-        }	       
+            // create new node (v -> u) and assign its values
+            t = new Node();
+            t.vert = u;
+            t.wgt = wgt;
+            t.next = adj[v]; // point new node to first node in list
+            adj[v] = t; // point array to new node
+        }
     }
    
     // convert vertex into char for pretty printing

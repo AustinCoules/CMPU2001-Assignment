@@ -59,10 +59,34 @@ class Heap
     {
         int v, j;
        
-        v = a[k];  
+        v = a[k];
         
-        // code yourself 
-        // must use hPos[] and dist[] arrays
+        int priority = dist[v];
+        
+        while (k <= N / 2) {
+            j = 2 * k; // j is the child node
+
+            // increment j if left node is bigger
+            if ((j < N) && (dist[a[j]] > dist[a[j + 1]])) {
+                j++;
+            }
+
+            // break if distance of parent < child
+            if (priority <= dist[a[j]]) {
+                break;
+            }
+
+            // child moved to parent position if parent < child
+            a[k] = a[j];
+
+            hPos[a[k]] = k; // update hPos[] to reflect new position
+
+            k = j;
+        }
+
+        a[k] = v; // place node in correct position
+
+        hPos[v] = k; // update hPos[] to reflect new position
     }
 
 

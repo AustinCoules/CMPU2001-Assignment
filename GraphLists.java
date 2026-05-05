@@ -2,6 +2,7 @@
 // Uses an Adjacency Linked Lists, suitable for sparse graphs
 
 import java.io.*;
+import java.util.Scanner;
 
 class QueueException extends Exception {
     public QueueException(String s) {
@@ -172,7 +173,8 @@ class Graph {
     // V = number of vertices
     // E = number of edges
     // adj[] is the adjacency lists array
-    private int V, E;
+    public int V; // made public so we can validate user input for starting vertex in main()
+    private int E;
     private Node[] adj;
     private Node z;
     private int[] mst;
@@ -483,21 +485,48 @@ class Graph {
         id++; // increment id for finish time
         finish[v] = id; // assign finish time to vertex v
     }
+
 }
 
 public class GraphLists {
     public static void main(String[] args) throws IOException
     {
-        int s = 2;
-        String fname = "wGraph1.txt";               
+        int s = 1; // starting vertex default
+        String fname; // graph file name
+        Scanner sc = new Scanner(System.in);
 
+        // get file name
+        System.out.println("Enter graph file name (Default: wGraph1.txt):");
+        fname = sc.nextLine().trim();
+        if (fname.equals("")) { // if user enters nothing use default
+            fname = "wGraph1.txt";
+        } else if (!new File(fname).exists()) { // ensure file exists
+            System.out.println("File not found. Using default wGraph1.txt.");
+            fname = "wGraph1.txt";
+        }
+
+        // build graph (so we know V for validation)
         Graph g = new Graph(fname);
-       
+
+        // ask for starting vertex (blank -> default 1)
+        System.out.println("Enter starting vertex numerically (A = \"1\", B = \"2\" etc.)  (Default: A):");
+        String sLine = sc.nextLine().trim();
+        if (sLine.equals("")) {
+            s = 1;
+        } else if (Integer.parseInt(sLine) < 1 || Integer.parseInt(sLine) > g.V) { // ensure vertex is actually in graph
+            System.out.println("Invalid vertex. Using default A (1).");
+            s = 1;
+        } else {
+            s = Integer.parseInt(sLine);
+        }
+
         g.display();
 
        g.DF(s);
        g.BF(s);
        g.MST_Prim(s);   
-       g.SPT_Dijkstra(s);               
+       g.SPT_Dijkstra(s);
+       
+       sc.close();
     }
 }

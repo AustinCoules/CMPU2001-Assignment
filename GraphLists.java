@@ -3,6 +3,57 @@
 
 import java.io.*;
 
+class QueueException extends Exception {
+    public QueueException(String s) {
+        super(s);
+    }
+}
+// Queue class required in BF()
+class Queue {
+    private int[] q;
+    private int front, rear, size, capacity;
+
+    public Queue() {
+        capacity = 20;
+        size = 0;
+        front = 0;
+        rear = 0;
+        q = new int[capacity];
+    }
+
+    public void enqueue(int x) throws QueueException {
+        if (size != capacity) {
+            q[rear] = x;
+            rear = (rear + 1) % capacity;
+            size++;
+        } else {
+            throw new QueueException("Queue is full");
+        }
+    }
+
+    public int dequeue() throws QueueException {
+        int dequeued;
+        if (size != 0) {
+            dequeued = q[front];
+            front = (front + 1) % capacity;
+            size--;
+            return dequeued;
+        } else {
+            throw new QueueException("Queue is empty");
+        }
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void display() {
+        for(int i = 0; i < size; i++) {
+            System.out.print(q[(front + i) % capacity] + ", ");
+        }
+    }
+}
+
 class Heap
 {
     private int[] a;	   // heap array

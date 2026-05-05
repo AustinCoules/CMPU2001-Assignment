@@ -447,6 +447,42 @@ class Graph {
             visited[v] = 2;
         }
     }
+
+    public void DF(int s) {
+        System.out.println("Depth First Traversal starting from vertex " + toChar(s));
+
+        int v, u;
+        Node t;
+
+        // initialise visited[] and parent[] to 0 and discovery[] to MAX_VALUE
+        for(v = 1; v <= V; v++) {
+            visited[v] = 0;
+            parent[v] = 0;
+        }
+        
+        dfVisit(s);
+    }
+
+    private void dfVisit(int v) {
+        id++; // increment id for discovery time
+        discovery[v] = id; // assign discovery time to vertex v
+        visited[v] = 1; // mark vertex as being seen (not yet visited)
+
+        System.out.println("DF: Visited vertex " + toChar(v) + " at edge " + toChar(parent[v]) + " -> " + toChar(v));
+
+        // traverse through node list of vertex v
+        for(Node t = adj[v]; t != z; t = t.next) {
+            if(visited[t.vert] == 0) { // if the vertex has not been visited
+                System.out.println("DF: Discovered vertex " + toChar(t.vert));
+
+                parent[t.vert] = v; // assign parent of t.vert to be v
+                dfVisit(t.vert); // recursively visit t.vert
+            }
+        }
+        visited[v] = 2; // mark vertex as visited
+        id++; // increment id for finish time
+        finish[v] = id; // assign finish time to vertex v
+    }
 }
 
 public class GraphLists {
@@ -459,7 +495,7 @@ public class GraphLists {
        
         g.display();
 
-       //g.DF(s);
+       g.DF(s);
        g.BF(s);
        g.MST_Prim(s);   
        g.SPT_Dijkstra(s);               

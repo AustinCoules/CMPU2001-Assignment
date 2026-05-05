@@ -201,12 +201,10 @@ class Graph {
 		String line = reader.readLine();        
         String[] parts = line.split(splits);
         System.out.println("Parts[] = " + parts[0] + " " + parts[1]);
-
-        reader.close();
         
         V = Integer.parseInt(parts[0]);
         E = Integer.parseInt(parts[1]);
-        
+
         // create sentinel node
         z = new Node(); 
         z.next = z;
@@ -248,6 +246,8 @@ class Graph {
             t.next = adj[v]; // point new node to first node in list
             adj[v] = t; // point array to new node
         }
+        
+        reader.close();
     }
    
     // convert vertex into char for pretty printing

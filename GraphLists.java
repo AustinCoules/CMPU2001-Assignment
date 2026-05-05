@@ -180,6 +180,9 @@ class Graph {
     // used for traversing graph
     private int[] visited;
     private int id;
+    private int[] parent;
+    private int[] discovery;
+    private int[] finish;
     
     
     // default constructor
@@ -207,7 +210,13 @@ class Graph {
         // create adjacency lists, initialised to sentinel node z       
         adj = new Node[V+1];        
         for(v = 1; v <= V; ++v)
-            adj[v] = z;               
+            adj[v] = z;
+        
+        // create arrays and size them to the graph + 1
+        visited = new int[V + 1];
+        parent = new int[V + 1];
+        discovery = new int[V + 1];
+        finish = new int[V + 1];
         
        // read the edges
         System.out.println("Reading edges from text file");
@@ -378,6 +387,66 @@ class Graph {
             System.out.println("\t" + toChar(v) + "\t\t" + toChar(parent[v]) + "\t\t" + dist[v]);
         }
     }
+
+    public void BF(int s) {
+        System.out.println("Breadth First Traversal starting from vertex " + toChar(s));
+
+        int v, u;
+        Node t;
+
+        // initialise visited[] and parent[] to 0 and discovery[] to MAX_VALUE
+        for(v = 1; v <= V; v++) {
+            visited[v] = 0;
+            parent[v] = 0;
+            discovery[v] = Integer.MAX_VALUE;
+        }
+
+        visited[s] = 1; // mark first vertex as being seen (not yet visited)
+        discovery[s] = 1; // mark discovery time of first vertex
+        
+        Queue q = new Queue();
+
+        // add first vertex to queue
+        try {
+            q.enqueue(s);
+        } catch (QueueException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // dequeue and store vertex in v
+        while(!q.isEmpty()) {
+            try {
+                v = q.dequeue();
+            } catch (QueueException e) {
+                System.out.println(e.getMessage());
+            }
+
+            System.out.println("BF: Visited vertex " + toChar(v) + " at edge " + toChar(parent[v]) + " -> " + toChar(v));
+
+            // traverse through node list of vertex v
+            for(t = adj[v]; t != z; t = t.next) {
+                u = t.vert; // place next vertex into u
+
+                if(visited[u] == 0) { // if the vertex has not been discovered
+                    System.out.println("BF: Discovered vertex " + toChar(u));
+
+                    visited[u] = 1; // mark vertex as being seen (not yet visited)
+                    parent[u] = v; // assign parent of u to be v
+                    discovery[u] = discovery[v] + 1; // assign discovery time of u to be one more than v
+
+                    // enqueue u
+                    try {
+                        q.enqueue(u);
+                    } catch (QueueException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+
+            // mark vertex as visited
+            visited[v] = 2;
+        }
+    }
 }
 
 public class GraphLists {
@@ -391,7 +460,7 @@ public class GraphLists {
         g.display();
 
        //g.DF(s);
-       //g.breadthFirst(s);
+       g.BF(s);
        g.MST_Prim(s);   
        g.SPT_Dijkstra(s);               
     }

@@ -278,16 +278,62 @@ class Graph {
 
     public void SPT_Dijkstra(int s)
     {
+        int v, u;
+        int wgt;
+        int[]  dist, parent, hPos;
+        Node t;
 
+        System.out.println("Dijkstra's SPT starting from vertex " + toChar(s));
+        System.out.println("\tVertex\t\tParent\t\tDistance");
+
+        // initialise arrays
+        dist = new int[V + 1];
+        parent = new int[V + 1];
+        hPos = new int[V + 1];
+
+        // assigning default values to arrays
+        for(v = 1; v <= V; v++) {
+            dist[v] = Integer.MAX_VALUE; // ensures no vertex is less than the initial value
+            parent[v] = 0;
+            hPos[v] = 0;
+        }
+
+        Heap h = new Heap(V, dist, hPos);
+        dist[s] = 0; // first vertex has best priority
+        h.insert(s);
+
+        // Iterates through the heap
+        while (!h.isEmpty()) {
+            v = h.remove();
+
+            // traverses through adjacency list
+            for (t = adj[v]; t != z; t = t.next) {
+                u = t.vert; // next vertex
+                wgt = t.wgt; // next weight
+
+                // if weight of edge (v, u) + distance to v is less than current distance to u
+                if (wgt + dist[v] < dist[u]) {
+                    dist[u] = dist[v] + wgt; // assign current weight to dist[u]
+                    parent[u] = v; // assign current vertex as next's parent
+
+                    if (hPos[u] == 0) { // if u is not in heap then add it
+                        h.insert(u);
+                    }
+                    else { // otherwise sift it up
+                        h.siftUp(hPos[u]);
+                    }
+                }
+            }
+            System.out.println("\t" + toChar(v) + "\t\t" + toChar(parent[v]) + "\t\t" + dist[v]);
+        }
     }
-
 }
 
 public class GraphLists {
     public static void main(String[] args) throws IOException
     {
         int s = 2;
-        String fname = "wGraph3.txt";               
+        String fname = "wGraph1.txt";               
 
         Graph g = new Graph(fname);
        
@@ -295,7 +341,7 @@ public class GraphLists {
 
        //g.DF(s);
        //g.breadthFirst(s);
-       //g.MST_Prim(s);   
-       //g.SPT_Dijkstra(s);               
+       g.MST_Prim(s);   
+       g.SPT_Dijkstra(s);               
     }
 }

@@ -201,6 +201,8 @@ class Graph {
 		String line = reader.readLine();        
         String[] parts = line.split(splits);
         System.out.println("Parts[] = " + parts[0] + " " + parts[1]);
+
+        reader.close();
         
         V = Integer.parseInt(parts[0]);
         E = Integer.parseInt(parts[1]);
@@ -453,8 +455,7 @@ class Graph {
     public void DF(int s) {
         System.out.println("Depth First Traversal starting from vertex " + toChar(s));
 
-        int v, u;
-        Node t;
+        int v;
 
         // initialise visited[] and parent[] to 0 and discovery[] to MAX_VALUE
         for(v = 1; v <= V; v++) {

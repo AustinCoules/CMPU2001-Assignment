@@ -37,7 +37,7 @@ class Heap
     Edge[] edge;
 
 
-    // Bottom up heap construc
+    // Bottom up heap construction
     public Heap(int _N, Edge[] _edge) {
         int i;
         Nmax = N = _N;
@@ -52,7 +52,7 @@ class Heap
         // Then convert h[] into a heap
         // from the bottom up.
         for(i = N/2; i > 0; --i)
-            ;// missing line;
+            siftDown(i);
     }
 
 

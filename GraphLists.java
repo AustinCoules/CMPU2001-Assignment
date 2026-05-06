@@ -330,6 +330,8 @@ class Graph {
         }
 
         System.out.print("\n\nWeight of MST = " + wgt_sum + "\n");
+
+        mst = parent; // assign parent array to mst for display in showMST()
 	}
     
     public void showMST()
@@ -525,7 +527,8 @@ public class GraphLists {
 
        g.DF(s);
        g.BF(s);
-       g.MST_Prim(s);   
+       g.MST_Prim(s);  
+       g.showMST(); 
        g.SPT_Dijkstra(s);
        
        sc.close();

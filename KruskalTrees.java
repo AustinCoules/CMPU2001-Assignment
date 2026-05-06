@@ -30,7 +30,7 @@ class Edge {
 }
 
 
-class Heap
+class HeapK // Renamed to avoid conflict with GraphLists
 {
 	private int[] h;
     int N, Nmax;
@@ -38,7 +38,7 @@ class Heap
 
 
     // Bottom up heap construction
-    public Heap(int _N, Edge[] _edge) {
+    public HeapK(int _N, Edge[] _edge) {
         int i;
         Nmax = N = _N;
         h = new int[N+1];
@@ -162,13 +162,13 @@ class UnionFindSets
     }
 }
 
-class Graph 
+class GraphK // Renamed to avoid conflict with GraphLists
 { 
     private int V, E;
     private Edge[] edge;
     private Edge[] mst;        
 
-    public Graph(String graphFile) throws IOException
+    public GraphK(String graphFile) throws IOException
     {
         int u, v;
         int w, e;
@@ -216,17 +216,44 @@ public Edge[] MST_Kruskal()
     int ei, i = 0;
     Edge e;
     int uSet, vSet;
-    UnionFindSets partition;
+    UnionFindSets partition, parts;
     
     // create edge array to store MST
     // Initially it has no edges.
     mst = new Edge[V-1];
 
     // priority queue for indices of array of edges
-    Heap h = new Heap(E, edge);
+    HeapK h = new HeapK(E, edge);
 
     // create partition of singleton sets for the vertices
-    
+    partition = new UnionFindSets(V);
+    parts = new UnionFindSets(V);
+
+    System.out.println("\nKruskal's algorithm: \n");
+    partition.showSets();
+    parts.showTrees();
+
+    for (int z = 0; z < E; z++) {
+        ei = h.remove(); // index of next edge with smallest weight
+
+        uSet = edge[ei].u; // find set of u
+        vSet = edge[ei].v; // find set of v
+
+        int partitionU = partition.findSet(uSet);
+        int partitionV = partition.findSet(vSet);
+
+        if (partitionU != partitionV) { // if u and v are in different sets
+            mst[i++] = edge[ei]; // add edge to MST
+            partition.union(partitionU, partitionV); // union the sets
+
+            System.out.println("Adding edge " + toChar(edge[ei].u) + "--(" + edge[ei].wgt + ")--" + toChar(edge[ei].v));
+        }
+
+        partition.showSets();
+
+        if (i == V - 1) // if we have enough edges for MST
+            break;
+    }
     
     
     
@@ -256,15 +283,15 @@ public Edge[] MST_Kruskal()
 class KruskalTrees {
     public static void main(String[] args) throws IOException
     {
-        String fname = "wGraph3.txt";
+        String fname = "wGraph1.txt";
         //System.out.print("\nInput name of file with graph definition: ");
         //fname = Console.ReadLine();
 
-        Graph g = new Graph(fname);
+        GraphK g = new GraphK(fname);
 
-        //g.MST_Kruskal();
+        g.MST_Kruskal();
 
-        //g.showMST();
+        g.showMST();
         
     }
 }

@@ -199,7 +199,9 @@ class Graph
             
             System.out.println("Edge " + toChar(u) + "--(" + w + ")--" + toChar(v));                         
              
-            // create Edge object  
+            // create Edge object
+            Edge edges = new Edge(u, v, w);
+            edge[e] = edges;
         }
     }
 

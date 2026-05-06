@@ -13,7 +13,9 @@ class Edge {
     }
 
     public Edge( int x, int y, int w) {
-        ;// missing lines
+        u = x;
+        v = y;
+        wgt = w;
     }
     
     public void show() {

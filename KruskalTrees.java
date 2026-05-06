@@ -65,7 +65,13 @@ class Heap
 
         e = h[k];
         while( k <= N/2) {
-            // missing lines
+            j = 2 * k; // left child
+            if(j < N && edge[h[j]].wgt > edge[h[j+1]].wgt) // right child is smaller
+                ++j;
+            if(edge[e].wgt <= edge[h[j]].wgt) // parent is smaller than both children
+                break;
+            h[k] = h[j]; // move child up
+            k = j;
         }
         h[k] = e;
     }

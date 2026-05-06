@@ -2,6 +2,7 @@
 // Union-find implemented using disjoint set trees without compression
 
 import java.io.*;    
+import java.util.Scanner;
  
 class Edge {
     public int u, v, wgt;
@@ -283,9 +284,16 @@ public Edge[] MST_Kruskal()
 class KruskalTrees {
     public static void main(String[] args) throws IOException
     {
-        String fname = "wGraph1.txt";
-        //System.out.print("\nInput name of file with graph definition: ");
-        //fname = Console.ReadLine();
+        String fname;
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter graph file name (Default: wGraph1.txt):");
+        fname = sc.nextLine();
+        if (fname.isEmpty()) {
+            fname = "wGraph1.txt";
+        } else if (!new File(fname).exists()) {
+            System.out.println("File not found. Using default wGraph1.txt.");
+            fname = "wGraph1.txt";
+        }
 
         GraphK g = new GraphK(fname);
 
@@ -293,5 +301,6 @@ class KruskalTrees {
 
         g.showMST();
         
+        sc.close();
     }
 }

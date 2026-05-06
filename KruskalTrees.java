@@ -23,10 +23,10 @@ class Edge {
         System.out.print("Edge " + toChar(u) + "--" + wgt + "--" + toChar(v) + "\n") ;
     }
     
-    // convert vertex into char for pretty printing
-    private char toChar(int u)
+    // convert vertex into a display label for pretty printing
+    private String toChar(int u)
     {  
-        return (char)(u + 64);
+        return Integer.toString(u);
     }
 }
 
@@ -110,10 +110,11 @@ class UnionFindSets
 
     public int findSet( int vertex)
     {   
-        if(treeParent[vertex] == vertex)
-            return vertex; // base case: vertex is the root of its tree
-        else
-            return findSet(treeParent[vertex]); // recursive call up the tree
+        if(treeParent[vertex] != vertex) {
+            treeParent[vertex] = findSet(treeParent[vertex]); // path compression
+        }
+
+        return treeParent[vertex];
     }
     
     public void union( int set1, int set2)
@@ -157,9 +158,9 @@ class UnionFindSets
     
     }
     
-    private char toChar(int u)
+    private String toChar(int u)
     {  
-        return (char)(u + 64);
+        return Integer.toString(u);
     }
 }
 
@@ -218,7 +219,7 @@ public Edge[] MST_Kruskal()
 {
     int ei, i = 0;
     int uSet, vSet;
-    UnionFindSets partition, parts;
+    UnionFindSets partition;
     
     // create edge array to store MST
     // Initially it has no edges.
@@ -229,11 +230,8 @@ public Edge[] MST_Kruskal()
 
     // create partition of singleton sets for the vertices
     partition = new UnionFindSets(V);
-    parts = new UnionFindSets(V);
 
     System.out.println("\nKruskal's algorithm: \n");
-    partition.showSets();
-    parts.showTrees();
 
     for (int z = 0; z < E; z++) {
         ei = h.remove(); // index of next edge with smallest weight
@@ -251,8 +249,6 @@ public Edge[] MST_Kruskal()
             System.out.println("Adding edge " + toChar(edge[ei].u) + "--(" + edge[ei].wgt + ")--" + toChar(edge[ei].v));
         }
 
-        partition.showSets();
-
         if (i == V - 1) // if we have enough edges for MST
             break;
     }
@@ -263,10 +259,10 @@ public Edge[] MST_Kruskal()
 }
 
 
-    // convert vertex into char for pretty printing
-    private char toChar(int u)
+    // convert vertex into a display label for pretty printing
+    private String toChar(int u)
     {  
-        return (char)(u + 64);
+        return Integer.toString(u);
     }
 
     public void showMST()

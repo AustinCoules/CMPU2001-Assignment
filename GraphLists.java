@@ -14,8 +14,8 @@ class Queue {
     private int[] q;
     private int front, rear, size, capacity;
 
-    public Queue() {
-        capacity = 20;
+    public Queue(int capacity) {
+        this.capacity = capacity;
         size = 0;
         front = 0;
         rear = 0;
@@ -250,10 +250,10 @@ class Graph {
         reader.close();
     }
    
-    // convert vertex into char for pretty printing
-    private char toChar(int u)
+    // convert vertex into a display label for pretty printing
+    private String toChar(int u)
     {  
-        return (char)(u + 64);
+        return Integer.toString(u);
     }
     
     // method to display the graph representation
@@ -408,7 +408,7 @@ class Graph {
         visited[s] = 1; // mark first vertex as being seen (not yet visited)
         discovery[s] = 1; // mark discovery time of first vertex
         
-        Queue q = new Queue();
+        Queue q = new Queue(V);
 
         // add first vertex to queue
         try {
@@ -510,12 +510,12 @@ public class GraphLists {
         Graph g = new Graph(fname);
 
         // ask for starting vertex (blank -> default 1)
-        System.out.println("Enter starting vertex numerically (A = \"1\", B = \"2\" etc.)  (Default: A):");
+        System.out.println("Enter starting vertex numerically (1, 2, 3 etc.)  (Default: 1):");
         String sLine = sc.nextLine().trim();
         if (sLine.equals("")) {
             s = 1;
         } else if (Integer.parseInt(sLine) < 1 || Integer.parseInt(sLine) > g.V) { // ensure vertex is actually in graph
-            System.out.println("Invalid vertex. Using default A (1).");
+            System.out.println("Invalid vertex. Using default 1.");
             s = 1;
         } else {
             s = Integer.parseInt(sLine);

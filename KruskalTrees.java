@@ -101,18 +101,25 @@ class UnionFindSets
     {
         N = V;
         treeParent = new int[V+1];
-        // missing lines
+
+        // initially each vertex is in a singleton set
+        for(int i = 1; i <= N; i++)
+            treeParent[i] = i;
     }
 
     public int findSet( int vertex)
     {   
-        // missing lines
-        return 0;
+        if(treeParent[vertex] == vertex)
+            return vertex; // base case: vertex is the root of its tree
+        else
+            return findSet(treeParent[vertex]); // recursive call up the tree
     }
     
     public void union( int set1, int set2)
     {
-        // missing
+        int x = findSet(set1);
+        int y = findSet(set2);
+        treeParent[y] = x; // make root of set2 point to root of set1
     }
     
     public void showTrees()

@@ -204,6 +204,8 @@ class GraphK // Renamed to avoid conflict with GraphLists
             Edge edges = new Edge(u, v, w);
             edge[e] = edges;
         }
+        
+        reader.close();
     }
 
 
@@ -215,7 +217,6 @@ class GraphK // Renamed to avoid conflict with GraphLists
 public Edge[] MST_Kruskal() 
 {
     int ei, i = 0;
-    Edge e;
     int uSet, vSet;
     UnionFindSets partition, parts;
     

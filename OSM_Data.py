@@ -18,8 +18,8 @@ import networkx as nx
 import osmnx as ox
 
 
-PLACE_NAME = "Spiddal, County Galway, Ireland"
-OUTPUT_FILE = Path("wGraph_spiddal.txt")
+PLACE_NAME = "Spiddal, County Galway, Ireland" # Replace with your chosen location
+OUTPUT_FILE = Path("wGraph_Large.txt") # Replace with your desired output file path
 MAX_NODES = 3600
 NETWORK_TYPE = "drive"
 SEARCH_DISTANCE_METERS = 12000
